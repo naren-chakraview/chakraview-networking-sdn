@@ -9,7 +9,6 @@ Python fabric protocols (BGP/VXLAN/EVPN), Docker Compose lab.
 cd lab
 docker-compose up
 ./scripts/init.sh
-curl http://localhost:8080/api/v1/topology
 ```
 
 ## Documentation
