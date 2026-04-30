@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package fabric;
+
+option go_package = "github.com/gundu/networking-sdn/controller/api";
+
+service FabricAgent {
+    rpc RegisterDevice(DeviceInfo) returns (DeviceID);
+    rpc GetDeviceState(DeviceID) returns (DeviceState);
+    rpc CreateVxlanTunnel(TunnelConfig) returns (TunnelStatus);
+    rpc AdvertiseBgpRoute(RouteAdvertisement) returns (RouteStatus);
+    rpc ApplyAcl(AclRule) returns (AclStatus);
+    rpc StreamDeviceEvents(DeviceID) returns (stream DeviceEvent);
+}
+
+message DeviceInfo {
+    string device_id = 1;
+    string device_addr = 2;
+    string device_role = 3; /* "leaf", "spine", etc */
+}
+
+message DeviceID {
+    string id = 1;
+    bool registered = 2;
+}
+
+message DeviceState {
+    string device_id = 1;
+    repeated RouteInfo routes = 2;
+    repeated TunnelInfo tunnels = 3;
+    int64 packets_forwarded = 4;
+    int64 packets_dropped = 5;
+}
+
+message RouteInfo {
+    string destination = 1;
+    string next_hop = 2;
+    string as_path = 3;
+}
+
+message TunnelInfo {
+    string tunnel_id = 1;
+    string source_ip = 2;
+    string dest_ip = 3;
+    int32 vni = 4;
+    bool active = 5;
+}
+
+message TunnelConfig {
+    string tunnel_id = 1;
+    string source_ip = 2;
+    string dest_ip = 3;
+    int32 vni = 4;
+}
+
+message TunnelStatus {
+    string tunnel_id = 1;
+    bool created = 2;
+    string status = 3;
+}
+
+message RouteAdvertisement {
+    string originator = 1;
+    string destination = 2;
+    string next_hop = 3;
+    int32 as_path_length = 4;
+}
+
+message RouteStatus {
+    bool advertised = 1;
+    int32 peers_received = 2;
+}
+
+message AclRule {
+    string rule_id = 1;
+    string source_ip = 2;
+    string dest_ip = 3;
+    string action = 4; /* "allow" or "drop" */
+}
+
+message AclStatus {
+    string rule_id = 1;
+    bool applied = 2;
+}
+
+message DeviceEvent {
+    string device_id = 1;
+    string event_type = 2; /* "state_change", "route_learned", etc */
+    string detail = 3;
+}

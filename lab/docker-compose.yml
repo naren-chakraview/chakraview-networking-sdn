@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  sdn-controller:
+    build:
+      context: ..
+      dockerfile: lab/Dockerfile.controller
+    container_name: sdn-controller
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    environment:
+      - LOG_LEVEL=info
+    networks:
+      - sdn-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  fabric-sim:
+    build:
+      context: ..
+      dockerfile: lab/Dockerfile.fabric
+    container_name: fabric-sim
+    depends_on:
+      sdn-controller:
+        condition: service_healthy
+    networks:
+      - sdn-net
+    environment:
+      - CONTROLLER_URL=http://sdn-controller:8080
+      - GRPC_URL=sdn-controller:9090
+
+networks:
+  sdn-net:
+    driver: bridge
