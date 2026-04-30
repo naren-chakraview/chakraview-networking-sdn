@@ -4,7 +4,7 @@ CFLAGS = -std=c11 -Wall -Wextra -O2
 # DPDK_CFLAGS = $(shell pkg-config --cflags libdpdk)
 # DPDK_LIBS = $(shell pkg-config --libs libdpdk)
 
-SRCS = src/main.c src/forwarding.c
+SRCS = src/main.c src/forwarding.c src/vxlan.c
 OBJS = $(SRCS:.c=.o)
 TARGET = dpdk-handler
 
