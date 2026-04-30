@@ -19,28 +19,29 @@ int main(int argc, char *argv[]) {
     vxlan_init(&vxlan_state);
     vxlan_add_tunnel(&vxlan_state, 1, 0xC0A80101, 0xC0A80102, 100); /* 192.168.1.1 -> .2, VNI 100 */
 
-    /* Test packet */
-    ipv4_hdr_t pkt = {
-        .version_ihl = 0x45,
-        .dscp_ecn = 0x00,
-        .total_length = 60,
-        .identification = 1,
-        .flags_frag_offset = 0x4000,
-        .ttl = 64,
-        .protocol = 6,
-        .checksum = 0,
-        .src_ip = 0x0A000102,
-        .dest_ip = 0x0A000103
-    };
+    /* Test packet - 60 bytes total (IPv4 header + 40-byte payload) */
+    uint8_t pkt_data[60];
+    ipv4_hdr_t *pkt = (ipv4_hdr_t *)pkt_data;
+    memset(pkt_data, 0, 60);
+    pkt->version_ihl = 0x45;
+    pkt->dscp_ecn = 0x00;
+    pkt->total_length = 60;
+    pkt->identification = 1;
+    pkt->flags_frag_offset = 0x4000;
+    pkt->ttl = 64;
+    pkt->protocol = 6;
+    pkt->checksum = 0;
+    pkt->src_ip = 0x0A000102;  /* 10.0.1.2 */
+    pkt->dest_ip = 0x0A000103; /* 10.0.1.3 */
 
     /* Forward decision */
-    int egress = forwarding_decide(&fwd_state, &pkt);
+    int egress = forwarding_decide(&fwd_state, pkt);
     printf("Forwarding decision: egress_port=%d\n", egress);
 
     /* Encapsulate in VXLAN */
     uint8_t encap_pkt[256];
     uint32_t encap_len;
-    bool encap_ok = vxlan_encapsulate(&vxlan_state, 1, (uint8_t *)&pkt, sizeof(pkt),
+    bool encap_ok = vxlan_encapsulate(&vxlan_state, 1, pkt_data, 60,
                                       encap_pkt, &encap_len);
     printf("VXLAN encapsulation: %s, len=%u\n", encap_ok ? "OK" : "FAIL", encap_len);
 
