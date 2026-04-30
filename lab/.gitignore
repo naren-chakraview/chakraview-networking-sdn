@@ -1,2 +1,31 @@
+# Environment
 .env
 .env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs and temp files
+*.log
+*.tmp
+tmp/
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Builds
+dist/
+build/
