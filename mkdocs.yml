@@ -13,12 +13,25 @@ theme:
 
 nav:
   - Home: index.md
-  - Architecture: architecture.md
   - Quick Start: quickstart.md
+  - Architecture Overview: architecture.md
+  - Component Guides:
+    - Foundation Layer: guides/foundation-layer.md
+    - Controller Layer: guides/controller-layer.md
+    - Fabric Layer: guides/fabric-layer.md
+    - Lab Setup: guides/lab-setup.md
+  - Decision & Design:
+    - Decision Matrix: guides/decision-matrix.md
+    - Landscape: guides/landscape.md
   - Architecture Decisions:
-    - ADR-0001: adrs/0001-architecture.md
-    - ADR-0002: adrs/0002-dpdk-vs-ebpf.md
-    - ADR-0003: adrs/0003-grpc-southbound.md
+    - ADR-0001 Three-Layer Architecture: adrs/0001-architecture.md
+    - ADR-0002 DPDK vs eBPF: adrs/0002-dpdk-vs-ebpf.md
+    - ADR-0003 Southbound Protocol: adrs/0003-grpc-southbound.md
+    - ADR-0004 Controller Design: adrs/0004-go-controller-design.md
+    - ADR-0005 BGP/VXLAN/EVPN: adrs/0005-bgp-vxlan-evpn.md
+    - ADR-0006 Lab Architecture: adrs/0006-lab-docker-compose.md
+    - ADR-0007 Monorepo Structure: adrs/0007-monorepo-structure.md
+    - ADR-0008 Performance Constraints: adrs/0008-performance-constraints.md
   - Extending:
     - Custom Protocols: extending/custom-protocols.md
     - Adding Devices: extending/adding-devices.md
