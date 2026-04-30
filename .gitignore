@@ -9,7 +9,7 @@ dist/
 
 # Go
 vendor/
-*.mod.sum
+go.sum
 .venv/
 
 # Python
