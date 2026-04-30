@@ -1,0 +1,33 @@
+# Build artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+target/
+build/
+dist/
+
+# Go
+vendor/
+*.mod.sum
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+.env.local
+
+# Lab
+lab/.env
