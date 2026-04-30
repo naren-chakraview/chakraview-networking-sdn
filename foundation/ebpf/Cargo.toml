@@ -1,0 +1,17 @@
+[package]
+name = "networking-sdn-ebpf"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# libbpf-rs = "0.21"  # TODO: EXTEND: Enable when libbpf system dependencies available
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "loader"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3
