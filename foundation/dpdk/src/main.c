@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     uint8_t decap_pkt[256];
     uint32_t decap_len;
     bool decap_ok = vxlan_decapsulate(&vxlan_state, encap_pkt, encap_len,
-                                      decap_pkt, &decap_len);
+                                      decap_pkt, sizeof(decap_pkt), &decap_len);
     printf("VXLAN decapsulation: %s, len=%u\n", decap_ok ? "OK" : "FAIL", decap_len);
 
     /* Stats */

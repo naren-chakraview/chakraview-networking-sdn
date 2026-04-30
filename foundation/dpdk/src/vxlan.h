@@ -44,7 +44,7 @@ bool vxlan_encapsulate(vxlan_state_t *state, uint32_t tunnel_id,
 
 /* Decapsulate VXLAN packet */
 bool vxlan_decapsulate(vxlan_state_t *state, const uint8_t *vxlan_pkt, uint32_t pkt_len,
-                       uint8_t *output_pkt, uint32_t *output_len);
+                       uint8_t *output_pkt, uint32_t output_buf_size, uint32_t *output_len);
 
 /* Get statistics */
 void vxlan_get_stats(vxlan_state_t *state, uint64_t *encap, uint64_t *decap);

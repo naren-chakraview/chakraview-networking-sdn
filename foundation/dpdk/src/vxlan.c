@@ -84,16 +84,24 @@ bool vxlan_encapsulate(vxlan_state_t *state, uint32_t tunnel_id,
 }
 
 bool vxlan_decapsulate(vxlan_state_t *state, const uint8_t *vxlan_pkt, uint32_t pkt_len,
-                       uint8_t *output_pkt, uint32_t *output_len) {
+                       uint8_t *output_pkt, uint32_t output_buf_size, uint32_t *output_len) {
     if (pkt_len < 50) {
         return false; /* Too small */
     }
 
+    /* Calculate output length */
+    uint32_t calc_len = pkt_len - 50;
+
+    /* Validate output buffer is large enough */
+    if (calc_len > output_buf_size) {
+        return false; /* Output buffer too small */
+    }
+
     /* Skip outer headers: Eth(14) + IP(20) + UDP(8) + VXLAN(8) = 50 */
     uint32_t inner_start = 50;
-    *output_len = pkt_len - inner_start;
 
-    memcpy(output_pkt, vxlan_pkt + inner_start, *output_len);
+    memcpy(output_pkt, vxlan_pkt + inner_start, calc_len);
+    *output_len = calc_len;
     state->packets_decapsulated++;
     return true;
 }
